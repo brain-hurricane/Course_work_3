@@ -1,8 +1,16 @@
-import utils
-import keys
+from src import utils
+from src import keys
 
-if __name__ == '__main__':
+
+def get_last_operations():
+
+    """
+    Основная функция. Возвращает список 5 последних операций в виде строки
+    """
+
     last_5_operations = utils.get_5_last_operations()
+    result = ""
+
     for operation in last_5_operations:
         date_time = operation[keys.KEY_DATE_OBJ]
         date = date_time.strftime("%d.%m.%Y")
@@ -20,5 +28,15 @@ if __name__ == '__main__':
         amount_sum = amount[keys.KEY_AMOUNT]
         amount_name = amount[keys.KEY_CURRENCY][keys.KEY_NAME]
 
-        message = f"{date} {description}\n{operation_from_to}\n{amount_sum} {amount_name}\n"
-        print(message)
+        result += f"{date} {description}\n{operation_from_to}\n{amount_sum} {amount_name}\n\n"
+
+    return result.strip()
+
+
+def main():
+    message = get_last_operations()
+    print(message)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,12 +1,19 @@
 from datetime import datetime
 import io
 import json
-import keys
+from src import keys
 import re
 
 
 def format_number_of_card(number_str):
-    if number_str == '':
+
+    """
+    Процедура маскирует номер карты или счета
+    :param number_str: неформатированная строка с номером счета или карты, номер должен быть последним в строке
+    :return: возвращает ту же строку с замаскированным номером
+    """
+
+    if len(number_str) < 16:
         return ''
 
     number_list_all = number_str.split(' ')
@@ -30,12 +37,24 @@ def format_number_of_card(number_str):
 
 
 def find_operation_by_id(operations_list, operation_id):
+
+    """
+    Находит операцию в переданном json по id
+    :param operations_list: json с данными об операциях
+    :param operation_id: id нужной операции
+    """
+
     for operation in operations_list:
         if operation[keys.KEY_ID] == operation_id:
             return operation
 
 
 def get_5_last_operations():
+
+    """
+    Возвращает 5 последних операций, отсортированных по убыванию даты
+    """
+
     with io.open('operations.json', encoding='utf-8') as file:
         parsed_json = json.load(file)
         result = []
@@ -60,6 +79,3 @@ def get_5_last_operations():
                 break
 
         return result
-
-
-# print(format_number_of_card("Visa Gold 6527183396477720"))
